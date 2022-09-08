@@ -1,37 +1,47 @@
+import tkinter
+import customtkinter
+import tkinter.messagebox
+from tkinter import *
 import random
-import sys
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtCore import QSize
 import translators as ts
-
 kz= str(random.choice(open("kz.txt").read().split()))
 translation=(ts.google(kz, from_language='kk',to_language='en'))
-#add count that saves whether the program has been run before
+
+customtkinter.set_appearance_mode("Dark")
+customtkinter.set_default_color_theme("blue")
 
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        QMainWindow.__init__(self)
-
-        self.setMinimumSize(QSize(300, 200))
-        self.setWindowTitle("Kazakh Word of the Day")
-
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        pybutton = QPushButton(kz, self)
-        pybutton.clicked.connect(self.clickMethod)
-        pybutton.resize(200,64)
-        pybutton.move(50, 50)
-
-    def clickMethod(self):
-
-        QMessageBox.about(self, "Translation", translation)
+root_tk = customtkinter.CTk()  # create CTk window like the Tk window
+root_tk.geometry("300x200")
+root_tk.title("Kazakh Word of the Day")
 
 
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    mainWin = MainWindow()
-    mainWin.show()
-    sys.exit( app.exec_() )
+def onClick():
+    print(tkinter.messagebox.showinfo("Translation", translation))
+def exportClick():
+    f=open("KazakhWords.txt","w+")
+    for i in range(1):
+        f.write(kz +"\n" )
+
+# Use CTkButton instead of tkinter Button
+
+
+
+l = Label(text=kz)
+l.config(font=("Roboto", 26))
+#l.config(background='Yellow')
+
+l.pack()
+button1 = customtkinter.CTkButton(master=root_tk, text="Translation",command=onClick)
+button1.pack()
+#button = customtkinter.CTkButton(master=root_tk, text="Export to Excel",command=exportClick())
+#button.pack()
+root_tk.configure(background='grey')
+root_tk.mainloop()
+
+
+
+
+
+
+
